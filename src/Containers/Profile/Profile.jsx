@@ -1,24 +1,42 @@
 
 import React, {useState, useEffect} from 'react';
-
+import { connect } from 'react-redux';
 import './Profile.css';
+import { LOGOUT } from '../../redux/types';
 
-const Profile = () => {
+const Profile = (props) => {
 
-    //Hook 
-    const [datosPerfil, setDatosPerfil] = useState(JSON.parse(localStorage.getItem("datosLogin")));
+    const logOut = () => {
+        //limpio redux...por lo tanto deslogueo
+        
+        props.dispatch({type:LOGOUT});
 
-    useEffect(()=>{
-        console.log(datosPerfil)
-    },[])
+    }
 
-    return (
-        <div className="designProfile">
-            {datosPerfil.nombre}
-            {datosPerfil.correo}
-            {datosPerfil.ciudad}
-        </div>
-    )
+    if(props.credentials?.token !== ''){
+        return (
+            <div className="designProfile">
+                <div className="user">{props.credentials?.usuario?.nombre}</div>
+                <div className="user">{props.credentials?.usuario?.apellidos}</div>
+                <div className="user">{props.credentials?.usuario?.ciudad}</div>
+                <div className="user">{props.credentials?.usuario?.correo}</div>
+                <div className="user">{props.credentials?.usuario?.telefono}</div>
+                <div className="user">{props.credentials?.usuario?.direccion}</div>
+                <div className="user" onClick={()=>logOut()}>LOGOUT</div>
+            </div>
+        )
+
+    } else {
+        return (
+            <div className="designProfile">
+                NADIE SABE NADA DE NINGÚN USUARIO---
+            </div>
+        )
+    }
+
+    
 };
 
-export default Profile;
+export default connect((state)=>({
+    credentials: state.credentials
+}))(Profile);

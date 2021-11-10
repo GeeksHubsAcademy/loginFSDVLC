@@ -2,11 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { LOGIN } from '../../redux/types';
 
 import './Login.css';
 
 
-const Login = () => {
+const Login = (props) => {
 
     const history = useNavigate();
 
@@ -31,13 +33,20 @@ const Login = () => {
             let res = await axios.post("https://aramossanchez-videoclub-api.herokuapp.com/usuarios/login", body);
             setmsgError(`Hola de nuevo ${res.data.usuario.nombre}....`);
 
-            localStorage.setItem("datosLogin", JSON.stringify(res.data.usuario));
+            //MÉTODO NO VÁLIDO PRE-REDUX
+            //localStorage.setItem("datosLogin", JSON.stringify(res.data.usuario));
+            //////////////////////////////////////////////
 
-            setTimeout(() => {
+            //Guardamos en REDUX
+            let datos = res.data;
+            
+            props.dispatch({type:LOGIN,payload:datos});
+
+            /*setTimeout(() => {
                 history("/profile");
-            }, 4000);
+            }, 4000);*/
         } catch (error) {
-            setmsgError("Error al logearme");
+            setmsgError(error);
 
         }
 
@@ -56,4 +65,4 @@ const Login = () => {
     )
 };
 
-export default Login;
+export default connect()(Login);
