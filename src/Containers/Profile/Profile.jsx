@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import './Profile.css';
-import { LOGOUT } from '../../redux/types';
+import { LOGOUT, UPDATE_USER } from '../../redux/types';
 
 const Profile = (props) => {
 
@@ -19,6 +19,32 @@ const Profile = (props) => {
     const manejaInputs = (e) => {
         //Función encargada de bindear el hook con los inputs.
         setUserData({ ...userData, [e.target.name]: e.target.value });
+    }
+
+    const update = async () => {
+        //Función encargada de hacer el update definitivo de los datos,
+        //primero al backend, luego a REDUX
+
+        
+       
+
+        /*
+        try {
+             //1 - guardado en backend mediante axios...este endpoint necesitará TOKEN!!! 
+            //let res = await axios.post('dirección de endpoint',userData,props.credentials.token);
+
+            //2 - guardamos en REDUX
+            if(res){
+                */
+                
+                props.dispatch({type: UPDATE_USER, payload:userData});
+            /*}
+        } catch (error) {
+            console.log(error)
+        }
+
+        */
+
     }
 
     const logOut = () => {
@@ -39,6 +65,7 @@ const Profile = (props) => {
         //y setea (mediante setUserData) los datos en el hook. por lo tanto, este seteo es el que rellena
         //los inputs con los datos de usuario al actualizarse redux cuando alguien hace click en el 
         //boton de login
+        
         setUserData(props.credentials.usuario);
 
     }, [props.credentials]);
@@ -60,7 +87,8 @@ const Profile = (props) => {
                 <div className="user"><input value={userData?.correo || false} name="correo" onChange={manejaInputs} /></div>
                 <div className="user"><input value={userData?.telefono || false} name="telefono" onChange={manejaInputs} /></div>
                 <div className="user"><input value={userData?.direccion || false} name="direccion" onChange={manejaInputs} /></div>
-                <div className="user" onClick={() => logOut()}>LOGOUT</div>
+                <div className="update" onClick={() => update()}>UPDATE</div>
+                <div className="unLog" onClick={() => logOut()}>LOGOUT</div>
             </div>
         )
 

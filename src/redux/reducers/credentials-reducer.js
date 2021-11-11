@@ -17,7 +17,7 @@ const credentialsReducer = (state = initialState, action) => {
 
         //Ejemplo de modificacion de datos
         case UPDATE_USER :
-            return {...state, user: action.payload};
+            return {...state, usuario: action.payload};
             
         default :
             return state

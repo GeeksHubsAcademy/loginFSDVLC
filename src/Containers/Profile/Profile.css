@@ -4,3 +4,18 @@
     height: 15em;
     color: white;
 }
+
+.unLog {
+    height: 2em;
+    width: 5em;
+    color: red;
+    border-radius: 0.2em;
+}
+
+.update {
+    margin-top: 2em;
+    height: 2em;
+    width: 5em;
+    color: orange;
+    border-radius: 0.2em;
+}
